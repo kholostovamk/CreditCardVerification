@@ -50,7 +50,53 @@ public class CreditAccount {
         return this.accountValid;
     }
     
-//setters
+     public static int getIssuerCode(String issuerSymbol){
+        //need to implement
+        return 0;
+    };
     
+    
+    public static String getIssuerSymbol(int issuerCode){
+       
+       
+        return null;
+       
+        //need to implement
+         
+        }
+    
+//setters
+    public void setAccountNum(String accountNum){
+        this.accountNum  = accountNum;
+    }
+    
+    public void setAvailableCredit(double availCredit){
+        this.availableCredit = availCredit;
+    }
+    
+    public void setMaxLimit(double maxLimit){
+        this.maxLimit = maxLimit;
+    }
+    
+    public void setIssuerSymbol(String issuerSym) {
+        this.issuerSymbol = issuerSym;
+    }
+    
+    public void setAccountValid(boolean acValid) {
+        this.accountValid = acValid;
+    }
+
+//constructors
+    
+    public CreditAccount(String issuerSymbol){
+        this.issuerSymbol = issuerSymbol;
+    };
+    public CreditAccount(String recordText,int recordLength){
+        //need to implement
+    };
+    public String assembleRecordText(){
+        return null;
+        //need to implement
+    };
     
 }
