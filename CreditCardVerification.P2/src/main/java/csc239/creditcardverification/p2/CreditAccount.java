@@ -57,12 +57,20 @@ public class CreditAccount {
     
     
     public static String getIssuerSymbol(int issuerCode){
-       
-       
-        return null;
-       
+       String issuerSymbol = null;
         //need to implement
-         
+         switch(issuerCode){
+             case 3 -> issuerSymbol = ISSUER_AMER_EXPRESS;
+             case 4 -> issuerSymbol = ISSUER_VISA;
+             case 5 -> issuerSymbol = ISSUER_MASTER_CARD;
+             case 6 -> issuerSymbol = ISSUER_DISCOVER;
+             case 7 -> issuerSymbol = ISSUER_DINERS_CLUB;
+             
+             //test this one
+             default -> throw new IllegalArgumentException("Bad choice: only 3-7 issuer codes are available. ");
+                 
+         }
+         return issuerSymbol;
         }
     
 //setters
