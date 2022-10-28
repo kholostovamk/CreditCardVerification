@@ -4,6 +4,7 @@
  */
 
 package csc239.creditcardverification.p2;
+import java.util.Scanner;
 
 /**
  *
@@ -12,6 +13,11 @@ package csc239.creditcardverification.p2;
 public class CreditCardVerificationP2 {
 
     public static void main(String[] args) {
+        
+        boolean keepRunning = true;
+        String userInput;
+        Scanner console = new Scanner(System.in);
+        
         
         //intro for 1st session (maybe put in separate function later)
         System.out.println("This program accepts the following inputs and performs the corresponding actions:\n");
@@ -29,5 +35,32 @@ public class CreditCardVerificationP2 {
         System.out.printf("   %-20s %-10s\n", "MasterCard", "MC");
         System.out.printf("   %-20s %-10s\n", "Discover", "DIS");
         System.out.printf("   %-20s %-10s\n", "Diners Club", "DINE");
+        
+        while (keepRunning == true){
+            
+        System.out.println("Command: ");
+        userInput = console.nextLine();
+        System.out.println("userInput= "+userInput);
+        
+         
+		if (userInput.isEmpty()) {
+			// ignore empty command
+		}
+		else if (userInput.equalsIgnoreCase( "help")) {
+			
+		}
+		else if (userInput.equalsIgnoreCase( "create")) {
+                }
+                else if (userInput.equalsIgnoreCase( "verify")) {
+                    
+                }
+                else if (userInput.equalsIgnoreCase( "q")) {
+                    keepRunning = false;
+                }
+               
+            
+            
+            
+        }
     }      
 }
