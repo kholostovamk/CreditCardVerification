@@ -14,19 +14,38 @@ public class Lab18Recursion {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int n1, n2;
+        String userInput = null;
+        
+        int m, n;
         int remainder;
+        boolean isRunning = true;
+        
+        
+        while (isRunning) {
         
         System.out.print("Enter two integers (or 'q' to exit): ");
-        n1 = input.nextInt();
-        n2 = input.nextInt();
         
-        while(n2!=0){
-            remainder = n1%n2;
-            n1 = n2;
-            n2 = remainder;
+        userInput = input.nextLine();
+        
+        if (userInput.equalsIgnoreCase("q")) {
+            isRunning = false;
         }
         
-        System.out.println(" GCD = " +n1);
+        String[] strArr = userInput.trim().split(" ", 2);
+         
+        m = Integer.parseInt(strArr[0]);
+        n = Integer.parseInt(strArr[1]);
         
-}}
+        /* m = input.nextInt();
+        n = input.nextInt();*/
+            
+        System.out.print("Entering 'gcd' method: m =" +m+", n = "+n);
+        while(n!=0){
+            remainder = m%n;
+            m = n;
+            n = remainder;
+        }
+        
+        System.out.println(" GCD = " +m);
+        
+}}}
