@@ -4,6 +4,7 @@
  */
 
 package csc239.lab18recursion;
+import java.util.Scanner;
 
 /**
  *
@@ -12,6 +13,20 @@ package csc239.lab18recursion;
 public class Lab18Recursion {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-}
+        Scanner input = new Scanner(System.in);
+        int n1, n2;
+        int remainder;
+        
+        System.out.print("Enter two integers (or 'q' to exit): ");
+        n1 = input.nextInt();
+        n2 = input.nextInt();
+        
+        while(n2!=0){
+            remainder = n1%n2;
+            n1 = n2;
+            n2 = remainder;
+        }
+        
+        System.out.println(" GCD = " +n1);
+        
+}}
