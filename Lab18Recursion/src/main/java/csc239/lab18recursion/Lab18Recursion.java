@@ -29,23 +29,24 @@ public class Lab18Recursion {
         
         if (userInput.equalsIgnoreCase("q")) {
             isRunning = false;
+            System.out.println("Exiting the program..");
+            break;
         }
         
         String[] strArr = userInput.trim().split(" ", 2);
          
         m = Integer.parseInt(strArr[0]);
         n = Integer.parseInt(strArr[1]);
+        //System.out.println("Entering 'gcd' method*: m =" +m+", n = "+n);
         
-        /* m = input.nextInt();
-        n = input.nextInt();*/
-            
-        System.out.print("Entering 'gcd' method: m =" +m+", n = "+n);
         while(n!=0){
             remainder = m%n;
+        System.out.println("Entering 'gcd' method: m =" +m+", n = "+n);
             m = n;
+       // System.out.println("Returning 'gcd' value = 2 (BASE CASE:      m=" +m + ", n=" +n);
             n = remainder;
         }
         
-        System.out.println(" GCD = " +m);
+        System.out.println("The GCD of " + strArr[0] + " and " + strArr[1] + " is " + m);
         
 }}}
