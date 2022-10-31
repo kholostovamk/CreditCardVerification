@@ -50,15 +50,25 @@ public class CreditAccount {
         return this.accountValid;
     }
     
-     public static int getIssuerCode(String issuerSymbol){
-        //need to implement
+     public static int getIssuerCode(String issuerSymbol){ 
+        
+        if (issuerSymbol.equalsIgnoreCase(ISSUER_AMER_EXPRESS))
+            return ISSUER_CODE_AE;
+        if (issuerSymbol.equalsIgnoreCase(ISSUER_VISA))
+            return ISSUER_CODE_V;
+        if (issuerSymbol.equalsIgnoreCase(ISSUER_MASTER_CARD))
+            return ISSUER_CODE_MC;
+        if (issuerSymbol.equalsIgnoreCase(ISSUER_DISCOVER))
+            return ISSUER_CODE_DIS;
+        if (issuerSymbol.equalsIgnoreCase(ISSUER_DINERS_CLUB))
+            return ISSUER_CODE_DINE;
+        //if none are "good" return 0
         return 0;
     };
     
     
     public static String getIssuerSymbol(int issuerCode){
        String issuerSymbol = null;
-        //need to implement
          switch(issuerCode){
              case 3 -> issuerSymbol = ISSUER_AMER_EXPRESS;
              case 4 -> issuerSymbol = ISSUER_VISA;

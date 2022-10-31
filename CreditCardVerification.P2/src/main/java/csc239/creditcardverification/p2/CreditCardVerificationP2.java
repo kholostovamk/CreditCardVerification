@@ -2,8 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
-
 package csc239.creditcardverification.p2;
+
 import java.util.Scanner;
 
 /**
@@ -13,12 +13,11 @@ import java.util.Scanner;
 public class CreditCardVerificationP2 {
 
     public static void main(String[] args) {
-        
+
         boolean keepRunning = true;
         String userInput;
         Scanner console = new Scanner(System.in);
-        
-        
+
         //intro for 1st session (maybe put in separate function later)
         System.out.println("This program accepts the following inputs and performs the corresponding actions:\n");
         System.out.println("USAGE:   command parameters(s)");
@@ -35,32 +34,24 @@ public class CreditCardVerificationP2 {
         System.out.printf("   %-20s %-10s\n", "MasterCard", "MC");
         System.out.printf("   %-20s %-10s\n", "Discover", "DIS");
         System.out.printf("   %-20s %-10s\n", "Diners Club", "DINE");
-        
-        while (keepRunning == true){
-            
-        System.out.println("Command: ");
-        userInput = console.nextLine();
-        System.out.println("userInput= "+userInput);
-        
-         
-		if (userInput.isEmpty()) {
-			// ignore empty command
-		}
-		else if (userInput.equalsIgnoreCase( "help")) {
-			
-		}
-		else if (userInput.equalsIgnoreCase( "create")) {
-                }
-                else if (userInput.equalsIgnoreCase( "verify")) {
-                    
-                }
-                else if (userInput.equalsIgnoreCase( "q")) {
-                    keepRunning = false;
-                }
-               
-            
-            
-            
+
+        while (keepRunning == true) {
+
+            System.out.println("Command: ");
+            userInput = console.nextLine();
+            System.out.println("userInput= " + userInput);
+
+            if (userInput.isEmpty()) {
+                // ignore empty command
+            } else if (userInput.equalsIgnoreCase("help")) {
+
+            } else if (userInput.equalsIgnoreCase("create")) {
+            } else if (userInput.equalsIgnoreCase("verify")) {
+
+            } else if (userInput.equalsIgnoreCase("q")) {
+                keepRunning = false; 
+            }
+
         }
-    }      
+    }
 }
