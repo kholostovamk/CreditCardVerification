@@ -4,21 +4,65 @@
  */
 package csc239.creditcardverification.p2;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
-/**
- *
- * @author admin
- */
+/*
+* CSC-239 Project 2:   Credit Card Verification Application
+* Student: Margarita Kholostova
+* Date: November 9
+* Description: This program processes credit card transactions,
+*               saving the results in a text file.
+*/
+
 public class CreditCardVerificationP2 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         boolean keepRunning = true;
         String userInput;
+  
         Scanner console = new Scanner(System.in);
 
         //intro for 1st session (maybe put in separate function later)
+        printDescription();
+       
+        
+        while (keepRunning == true) {
+
+            System.out.println("Command: ");
+            userInput = console.nextLine();
+            String[] strArr = userInput.trim().split(" ");
+            System.out.println("userInput= " + userInput);
+            
+            
+            if (userInput.isEmpty()) {
+                // ignore empty command
+            } else if (strArr[0].equalsIgnoreCase("help")) {
+                printDescription();
+                
+            } else if (strArr[0].equalsIgnoreCase("create")) {
+                
+                CreditAccount account1 = new CreditAccount(strArr[1]);
+                
+                writeData(account1);
+               
+                   
+                
+                
+            } else if (strArr[0].equalsIgnoreCase("verify")) {
+
+            } else if (strArr[0].equalsIgnoreCase("q")) {
+                keepRunning = false; 
+            }
+
+        }
+    }
+    
+    public static void printDescription() {
         System.out.println("This program accepts the following inputs and performs the corresponding actions:\n");
         System.out.println("USAGE:   command parameters(s)");
         System.out.printf("   %-10s %-10s\n", "COMMAND", "PARAMETER(S)");
@@ -34,24 +78,13 @@ public class CreditCardVerificationP2 {
         System.out.printf("   %-20s %-10s\n", "MasterCard", "MC");
         System.out.printf("   %-20s %-10s\n", "Discover", "DIS");
         System.out.printf("   %-20s %-10s\n", "Diners Club", "DINE");
-
-        while (keepRunning == true) {
-
-            System.out.println("Command: ");
-            userInput = console.nextLine();
-            System.out.println("userInput= " + userInput);
-
-            if (userInput.isEmpty()) {
-                // ignore empty command
-            } else if (userInput.equalsIgnoreCase("help")) {
-
-            } else if (userInput.equalsIgnoreCase("create")) {
-            } else if (userInput.equalsIgnoreCase("verify")) {
-
-            } else if (userInput.equalsIgnoreCase("q")) {
-                keepRunning = false; 
-            }
-
-        }
     }
-}
+    
+    public static void writeData(CreditAccount account1) throws IOException {
+         BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
+         writer.write(account1.getAccountNum() + " | " + account1.getAvailableCredit() + " | " + account1.getMaxLimit());
+         writer.close();
+    }
+     
+    
+}      
