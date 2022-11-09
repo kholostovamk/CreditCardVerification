@@ -7,6 +7,7 @@ package csc239.creditcardverification.p2;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -27,10 +28,6 @@ public class CreditCardVerificationP2 {
         String userInput;
 
         Scanner console = new Scanner(System.in);
-
-        //for the file to clean itself at the start of programm
-        //File myFile = new File("output.txt");
-        //myFile.delete();
 
         
 
@@ -60,13 +57,19 @@ public class CreditCardVerificationP2 {
                 System.out.println("Accounts: " + loadedAccounts);
 
             } else if (strArr[0].equalsIgnoreCase("verify")) {
-                //use same array, rebuilt array from data file
-
+                
+           //  int doesExist = findAccount(strArr[1], accountArray, loadedAccounts);
+           //  System.out.println("DoesExist:" +doesExist);
+          authorizeTransaction(accountArray, loadedAccounts,strArr);
             } else if (strArr[0].equalsIgnoreCase("q")) {
                 keepRunning = false;
             }
             writeDataArray(accountArray, loadedAccounts);//moved from 59
         }
+        
+        
+       //cleans the file after quit
+       new FileOutputStream("output.txt").close(); 
         
     }
 
@@ -88,15 +91,6 @@ public class CreditCardVerificationP2 {
         System.out.printf("   %-20s %-10s\n", "Diners Club", "DINE");
     }
 
-   /* public static void writeData(CreditAccount account1) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
-
-        writer.write(account1.getAccountNum() + " | " + account1.getAvailableCredit() + " | " + account1.getMaxLimit() + "\n");
-
-        writer.close();
-
-        //how to start with clean file
-    }*/
 
     public static void writeDataArray(CreditAccount[] array, int loadedAccounts) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", false));
@@ -110,8 +104,7 @@ public class CreditCardVerificationP2 {
     
     
     public static int readData(CreditAccount[] accountArray, int loadedAccounts) throws FileNotFoundException {
-      //  CreditAccount[] accountArray =new CreditAccount[100];
-        //int loadedAccounts = 0;
+
         int lineNum =0;
         
         File accountData = new File("output.txt");
@@ -120,19 +113,16 @@ public class CreditCardVerificationP2 {
             Scanner scAcountData = new Scanner(accountData);
             
             while (scAcountData.hasNext()) {
-                
-              /*  String accountNum = scAcountData.next();
-                String availCredit = scAcountData.next();
-                String maxLimit = scAcountData.next();*/
+
                 String inputText = scAcountData.nextLine();
                 lineNum++;
-                System.out.printf("Line = %d: input text = %s\n", lineNum, inputText);
+               // System.out.printf("Line = %d: input text = %s\n", lineNum, inputText);
                 String[] dataFields = inputText.split("\\|");
                 String accountNum = dataFields[0].trim();
                 String availCredit = dataFields[1].trim();
                 String maxLimit = dataFields[2].trim();
                 
-                System.out.printf("line = %d: AccountNum = %s, availCredit = %s, maxLimit = %s\n",lineNum, accountNum, availCredit, maxLimit);
+              //  System.out.printf("line = %d: AccountNum = %s, availCredit = %s, maxLimit = %s\n",lineNum, accountNum, availCredit, maxLimit);
                 accountArray[loadedAccounts]= new CreditAccount(accountNum, availCredit, maxLimit);
                 loadedAccounts++;
             }
@@ -141,4 +131,43 @@ public class CreditCardVerificationP2 {
         return loadedAccounts;
         
     }
+    
+    public static int findAccount (String accountNum, CreditAccount[] accountArray, int loadedAccounts) throws FileNotFoundException {
+       
+        System.out.println("LoadedAcc: " + loadedAccounts);
+        
+        for (int i=0; i < loadedAccounts; i++) {
+        
+        if (accountNum.trim().equals(accountArray[i].getAccountNum()))
+            return i;
+         
+        //if account is not found
+        }
+        return-1;
+    }
+    
+    public static void authorizeTransaction(CreditAccount[] accountArray, int loadedAccounts, String[] strArr) throws FileNotFoundException {
+        
+        int accountExist = findAccount(strArr[1], accountArray, loadedAccounts);
+        
+        System.out.println("Account exist: "+ accountExist);
+        
+        Double purchaseAmount = Double.parseDouble(strArr[2]);
+       // Double limit = Double.parseDouble(s)
+        if(accountExist != -1){
+            
+            if (accountArray[accountExist].getAvailableCredit() >= purchaseAmount){
+             double newCredit = accountArray[accountExist].getAvailableCredit() - purchaseAmount;
+             accountArray[accountExist].setAvailableCredit(newCredit);
+             System.out.printf("""
+                               AUTHORIZATION GRANTED (accountNum=%s, transactionAmount=$%s,
+                               available credit=$%f)\n""", strArr[1], strArr[2], newCredit);
+               // accountArray[accountExist].setAvailableCredit() = accountArray[accountExist].getAvailableCredit() - purchaseAmount;
+            } else {
+            System.out.printf("AUTHORIZATION DENIED (accountNum=%s, transactionAmount=$%s,available credit=$%s)\n", strArr[1], strArr[2], accountArray[1].getAvailableCredit());
+        }
+    } else {
+            System.out.println("Account is not found");
+        }
+}
 }
