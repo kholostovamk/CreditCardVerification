@@ -19,6 +19,8 @@ public class CreditAccount {
     private int issuerCode;
     private boolean accountValid;
     
+    public static final int MAX_ACCOUNTS=100;
+    
     public static final String ISSUER_AMER_EXPRESS = "AE";
     public static final String ISSUER_VISA = "V";
     public static final String ISSUER_MASTER_CARD = "MC";
@@ -129,46 +131,48 @@ public class CreditAccount {
     
     public CreditAccount(String issuerSymbol){
         this.issuerSymbol = issuerSymbol;
-        this.issuerCode = this.getIssuerCode(issuerSymbol);
-        System.out.printf("Issuer Symbol = %s, IssuerCode = %d\n", this.issuerSymbol, this.issuerCode);
-       // String s = getIssuerSymbol(this.issuerCode)
-       // String s = Integer.parseInt(this.issuerCode);
-        String partialAcNum = this.getIssuerCodeText(issuerCode);
+        this.issuerCode = CreditAccount.getIssuerCode(issuerSymbol);
+       // System.out.printf("Issuer Symbol = %s, IssuerCode = %d\n", this.issuerSymbol, this.issuerCode);
+        String partialAcNum = CreditAccount.getIssuerCodeText(issuerCode);
         
         Random rand = new Random();
-  
+        
+        int lastDig = 0;
         
         for (int i=0; i<15; i++) {
         int randInt1 =(char) rand.nextInt(10);
-        
         partialAcNum +=randInt1;
+        
+        if (i==14){
+            lastDig = randInt1;
+        }
         }
         
-        System.out.println("Chars: "+partialAcNum);
-        
         this.accountNum = partialAcNum;
-        System.out.println(this.accountNum);
         
+        if (lastDig >= 0 || lastDig <=4){
+            this.maxLimit = 1000.00;
+            this.availableCredit= 1000.00;
+        } 
+        if (lastDig > 4) {
+            this.maxLimit = 500.00;
+            this.availableCredit= 500.00;
+        }
         
-        
-        
-        
-       /* Random rnd = new Random();
-        int number = rnd. nextInt(999999999);
-​        System.out.println(number);*/
-// this will convert any number sequence into 6 character.
-        //return String. format("%06d", number);
-        //loop generated individual characters between 0 to 9(generated, make into characr, concatin with string partacnum
-        //charat string length i1 for individual character
-        //
+        System.out.printf("New account created for credit card symbol %s: account number= %s, credit limit = $%f\n", this.issuerSymbol.toUpperCase(),this.accountNum, this.maxLimit);
+
     };
-    public CreditAccount(String recordText,int recordLength){
-        //need to implement
+    
+    public CreditAccount(String accountNum, String availCredit, String maxLimit){
+        
+        Double avail = Double.parseDouble(availCredit);
+        Double max = Double.parseDouble(maxLimit);
+        
+        this.accountNum = accountNum;
+        this.availableCredit = avail;
+        this.maxLimit = max;
     };
-    public String assembleRecordText(){
-        return null;
-        //need to implement
-    };
+    
     
     
     
