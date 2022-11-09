@@ -153,21 +153,36 @@ public class CreditCardVerificationP2 {
         System.out.println("Account exist: "+ accountExist);
         
         Double purchaseAmount = Double.parseDouble(strArr[2]);
-       // Double limit = Double.parseDouble(s)
+
         if(accountExist != -1){
             
-            if (accountArray[accountExist].getAvailableCredit() >= purchaseAmount){
+            if (accountArray[accountExist].getAvailableCredit() >= purchaseAmount ){
+            
              double newCredit = accountArray[accountExist].getAvailableCredit() - purchaseAmount;
+             
+             if(newCredit > accountArray[accountExist].getMaxLimit()) {
+                 newCredit = accountArray[accountExist].getMaxLimit();
+                 System.out.printf("""
+                                   AUTHORIZATION GRANTED with CAUTION -- current transaction attempted to raise
+                                   available credit above MAX=$%f (accountNum=%s,
+                                   transactionAmount=$%f, NEW available credit =$%f)""", newCredit,strArr[1],purchaseAmount, newCredit);
+             } else if (newCredit < accountArray[accountExist].getMaxLimit()){
              accountArray[accountExist].setAvailableCredit(newCredit);
              System.out.printf("""
                                AUTHORIZATION GRANTED (accountNum=%s, transactionAmount=$%s,
-                               available credit=$%f)\n""", strArr[1], strArr[2], newCredit);
-               // accountArray[accountExist].setAvailableCredit() = accountArray[accountExist].getAvailableCredit() - purchaseAmount;
-            } else {
-            System.out.printf("AUTHORIZATION DENIED (accountNum=%s, transactionAmount=$%s,available credit=$%s)\n", strArr[1], strArr[2], accountArray[1].getAvailableCredit());
-        }
-    } else {
-            System.out.println("Account is not found");
-        }
-}
-}
+                               available credit=$%f)""", strArr[1], strArr[2], newCredit);
+               
+            } 
+     //        else {
+     //       System.out.printf("AUTHORIZATION DENIED (accountNum=%s, transactionAmount=$%s,available credit=$%s)\n", strArr[1], strArr[2], accountArray[1].getAvailableCredit());
+     //   }
+    } else {System.out.printf("AUTHORIZATION DENIED (accountNum=%s, transactionAmount=$%s,available credit=$%s)\n", strArr[1], strArr[2], accountArray[1].getAvailableCredit());}
+            
+            //account doesnt exist
+            if(accountExist == -1){
+            System.out.println("Account is not found");}
+        
+        
+} //end of if by account exist
+}//end of authorize method
+}//end of program
