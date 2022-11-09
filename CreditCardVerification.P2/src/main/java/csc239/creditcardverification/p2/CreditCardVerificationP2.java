@@ -29,17 +29,18 @@ public class CreditCardVerificationP2 {
         Scanner console = new Scanner(System.in);
 
         //for the file to clean itself at the start of programm
-        File myFile = new File("output.txt");
-        myFile.delete();
+        //File myFile = new File("output.txt");
+        //myFile.delete();
 
-        CreditAccount[] accountArray = new CreditAccount[100];
-        int loadedAccounts = 0;
+        
 
         //intro for 1st session (maybe put in separate function later)
         printDescription();
 
         while (keepRunning == true) {
-
+            CreditAccount[] accountArray = new CreditAccount[100];
+            int loadedAccounts = 0;
+            loadedAccounts = readData(accountArray, loadedAccounts); //moved from 55
             System.out.println("Command: ");
             userInput = console.nextLine();
             String[] strArr = userInput.trim().split(" ");
@@ -51,19 +52,22 @@ public class CreditCardVerificationP2 {
                 printDescription();
 
             } else if (strArr[0].equalsIgnoreCase("create")) {
-
+                
                 CreditAccount account1 = new CreditAccount(strArr[1]);
+                accountArray[loadedAccounts]= account1;
                 loadedAccounts += 1;
-                writeData(account1);
+                
                 System.out.println("Accounts: " + loadedAccounts);
 
             } else if (strArr[0].equalsIgnoreCase("verify")) {
+                //use same array, rebuilt array from data file
 
             } else if (strArr[0].equalsIgnoreCase("q")) {
                 keepRunning = false;
             }
-
+            writeDataArray(accountArray, loadedAccounts);//moved from 59
         }
+        
     }
 
     public static void printDescription() {
@@ -84,7 +88,7 @@ public class CreditCardVerificationP2 {
         System.out.printf("   %-20s %-10s\n", "Diners Club", "DINE");
     }
 
-    public static void writeData(CreditAccount account1) throws IOException {
+   /* public static void writeData(CreditAccount account1) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
 
         writer.write(account1.getAccountNum() + " | " + account1.getAvailableCredit() + " | " + account1.getMaxLimit() + "\n");
@@ -92,28 +96,49 @@ public class CreditCardVerificationP2 {
         writer.close();
 
         //how to start with clean file
-    }
+    }*/
 
-    /* public static void readData(String filename) throws FileNotFoundException {
-        CreditAccount[] accountArray =new CreditAccount[100];
-        int loadedAccounts = 0;
+    public static void writeDataArray(CreditAccount[] array, int loadedAccounts) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", false));
         
-        File accountData = new File(filename);
+        for (int i=0; i<loadedAccounts; i++) {
+        writer.write(array[i].getAccountNum() + " | " + array[i].getAvailableCredit() + " | " + array[i].getMaxLimit() + "\n");   
+         //   writeData(array[i]);
+        }
+         writer.close();
+    }
+    
+    
+    public static int readData(CreditAccount[] accountArray, int loadedAccounts) throws FileNotFoundException {
+      //  CreditAccount[] accountArray =new CreditAccount[100];
+        //int loadedAccounts = 0;
+        int lineNum =0;
+        
+        File accountData = new File("output.txt");
         if (accountData.canRead()){
             
             Scanner scAcountData = new Scanner(accountData);
             
             while (scAcountData.hasNext()) {
                 
-                String accountNum = scAcountData.next();
+              /*  String accountNum = scAcountData.next();
                 String availCredit = scAcountData.next();
-                String maxLimit = scAcountData.next();
+                String maxLimit = scAcountData.next();*/
+                String inputText = scAcountData.nextLine();
+                lineNum++;
+                System.out.printf("Line = %d: input text = %s\n", lineNum, inputText);
+                String[] dataFields = inputText.split("\\|");
+                String accountNum = dataFields[0].trim();
+                String availCredit = dataFields[1].trim();
+                String maxLimit = dataFields[2].trim();
                 
-                accountArray[loadedAccounts]== new CreditAccount(accountNum, availCredit, maxLimit);
+                System.out.printf("line = %d: AccountNum = %s, availCredit = %s, maxLimit = %s\n",lineNum, accountNum, availCredit, maxLimit);
+                accountArray[loadedAccounts]= new CreditAccount(accountNum, availCredit, maxLimit);
                 loadedAccounts++;
             }
             
         }
+        return loadedAccounts;
         
-    }*/
+    }
 }
