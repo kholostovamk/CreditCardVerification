@@ -6,10 +6,14 @@ package csc239.creditcardverification.p2;
 
 import java.util.Random;
 
-/**
- *
- * @author admin
- */
+/*
+* CSC-239 Project 2:   Credit Card Verification Application
+* Student: Margarita Kholostova
+* Date: November 9
+* Description: This program processes credit card transactions,
+*               saving the results in a text file.
+*/
+
 public class CreditAccount {
     
     private String accountNum;
@@ -17,10 +21,8 @@ public class CreditAccount {
     private double maxLimit;
     private String issuerSymbol;
     private int issuerCode;
-    private boolean accountValid;
-    
-    public static final int MAX_ACCOUNTS=100;
-    
+
+ //Credit Card issuer symbols   
     public static final String ISSUER_AMER_EXPRESS = "AE";
     public static final String ISSUER_VISA = "V";
     public static final String ISSUER_MASTER_CARD = "MC";
@@ -51,10 +53,7 @@ public class CreditAccount {
         return this.issuerSymbol;
     }
     
-    public boolean getAccountValid() {
-        return this.accountValid;
-    }
-    
+
      public static int getIssuerCode(String issuerSymbol){ 
         
         if (issuerSymbol.equalsIgnoreCase(ISSUER_AMER_EXPRESS))
@@ -81,8 +80,8 @@ public class CreditAccount {
              case 6 -> issuerSymbol = ISSUER_DISCOVER;
              case 7 -> issuerSymbol = ISSUER_DINERS_CLUB;
              
-             //test this one
-             default -> throw new IllegalArgumentException("Bad choice: only 3-7 issuer codes are available. ");
+        
+             default -> throw new IllegalArgumentException("Bad choice: only certain issuer codes are available. Look them up at the start of the program:\\) ");
                  
          }
          return issuerSymbol;
@@ -98,8 +97,8 @@ public class CreditAccount {
              case 6 -> issuerSymbol = "6";
              case 7 -> issuerSymbol = "7";
              
-             //test this one
-             default -> throw new IllegalArgumentException("Bad choice: only 3-7 issuer codes are available. ");
+            
+             default -> throw new IllegalArgumentException("Only 3-7 issuer codes are available. ");
                  
          }
          return issuerSymbol;
@@ -123,30 +122,28 @@ public class CreditAccount {
         this.issuerSymbol = issuerSym;
     }
     
-    public void setAccountValid(boolean acValid) {
-        this.accountValid = acValid;
-    }
 
 //constructors
     
     public CreditAccount(String issuerSymbol){
         this.issuerSymbol = issuerSymbol;
         this.issuerCode = CreditAccount.getIssuerCode(issuerSymbol);
-       // System.out.printf("Issuer Symbol = %s, IssuerCode = %d\n", this.issuerSymbol, this.issuerCode);
+    
         String partialAcNum = CreditAccount.getIssuerCodeText(issuerCode);
         
         Random rand = new Random();
         
         int lastDig = 0;
         
+        //loop to create account number
         for (int i=0; i<15; i++) {
         int randInt1 =(char) rand.nextInt(10);
         partialAcNum +=randInt1;
         
+        //remember last digit for max limit
         if (i==14){
-            lastDig = randInt1;
-        }
-        }
+            lastDig = randInt1;}
+        }//end of for loop
         
         this.accountNum = partialAcNum;
         
@@ -159,8 +156,8 @@ public class CreditAccount {
             this.availableCredit= 500.00;
         }
         
-        System.out.printf("New account created for credit card symbol %s: account number= %s, credit limit = $%f\n", this.issuerSymbol.toUpperCase(),this.accountNum, this.maxLimit);
-
+        System.out.printf("New account created for credit card symbol %s: account number= %s, credit limit = $%.2f\n", this.issuerSymbol.toUpperCase(),this.accountNum, this.maxLimit);
+    
     };
     
     public CreditAccount(String accountNum, String availCredit, String maxLimit){
@@ -172,8 +169,5 @@ public class CreditAccount {
         this.availableCredit = avail;
         this.maxLimit = max;
     };
-    
-    
-    
-    
+   
 }
